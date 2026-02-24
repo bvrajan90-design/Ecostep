@@ -11,6 +11,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -19,20 +20,15 @@ jobs:
           java-version: '17'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Expo Prebuild
-        run: npx expo prebuild --platform android --no-install
+        # Added --clean and --no-install to avoid common environment crashes
+        run: npx expo prebuild --platform android --clean --no-install --non-interactive
 
       - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: expo-app-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          ./gradlew assembleDebug --stacktrace
           
