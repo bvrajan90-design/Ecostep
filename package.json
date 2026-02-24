@@ -27,6 +27,8 @@
   },
   "devDependencies": {
     "@react-native-community/cli": "latest",
+    "@react-native/metro-config": "latest",
+    "@react-native/babel-preset": "latest",
     "@types/react": "~19.1.0",
     "typescript": "~5.9.2"
   },
