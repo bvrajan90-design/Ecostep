@@ -19,15 +19,12 @@ jobs:
           java-version: '17'
 
       - name: Install Dependencies
-        run: |
-          npm install --legacy-peer-deps
-          npm install react-native-worklets --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Expo Prebuild
         run: npx expo prebuild --platform android --no-install --non-interactive
 
       - name: Bundle JavaScript
-        # This is the critical step to fix "Unable to load script"
         run: |
           mkdir -p android/app/src/main/assets
           npx react-native bundle --platform android --dev false --entry-file index.ts --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
