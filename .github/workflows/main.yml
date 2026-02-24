@@ -19,7 +19,8 @@ jobs:
           java-version: '17'
 
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        # Added --force to ensure all peer deps like async-storage are installed
+        run: npm install --legacy-peer-deps --force
 
       - name: Expo Prebuild
         run: npx expo prebuild --platform android --no-install --non-interactive
@@ -49,4 +50,3 @@ jobs:
         with:
           name: agon-preview-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          
