@@ -11,7 +11,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -23,12 +22,18 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Expo Prebuild
-        # Added --clean and --no-install to avoid common environment crashes
-        run: npx expo prebuild --platform android --clean --no-install --non-interactive
+        # Added --no-install and skipped asset check
+        run: npx expo prebuild --platform android --no-install --non-interactive
 
       - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug --no-daemon
+          
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: agon-preview-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           
