@@ -25,14 +25,14 @@ jobs:
         run: npx expo prebuild --platform android --no-install --non-interactive
 
       - name: Fix Reanimated Node Path
-        # This creates a link so the Android build can find 'node' easily
+        # This solves the 'non-zero exit value 1' in reanimated/android/build.gradle
         run: sudo ln -sf $(which node) /usr/local/bin/node
 
       - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
