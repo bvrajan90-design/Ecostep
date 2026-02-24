@@ -27,7 +27,13 @@ jobs:
       - name: Bundle JavaScript
         run: |
           mkdir -p android/app/src/main/assets
-          npx react-native bundle --platform android --dev false --entry-file index.ts --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+          # Force use the project-level CLI and config
+          NODE_OPTIONS="--max-old-space-size=4096" npx react-native bundle \
+            --platform android \
+            --dev false \
+            --entry-file index.ts \
+            --bundle-output android/app/src/main/assets/index.android.bundle \
+            --assets-dest android/app/src/main/res
 
       - name: Fix Reanimated Node Path
         run: sudo ln -sf $(which node) /usr/local/bin/node
